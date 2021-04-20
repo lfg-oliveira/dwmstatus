@@ -20,7 +20,7 @@
 char *tzargentina = "America/Buenos_Aires";
 char *tzutc = "UTC";
 char *tzberlin = "Europe/Berlin";
-
+char *tzsaopaulo = "America/Sao_Paulo";
 static Display *dpy;
 
 char *
@@ -185,6 +185,7 @@ main(void)
 	char *tmar;
 	char *tmutc;
 	char *tmbln;
+	char *tmbrazil;
 	char *t0, *t1, *t2;
 
 	if (!(dpy = XOpenDisplay(NULL))) {
@@ -199,13 +200,13 @@ main(void)
 		tmar = mktimes("%H:%M", tzargentina);
 		tmutc = mktimes("%H:%M", tzutc);
 		tmbln = mktimes("KW %W %a %d %b %H:%M %Z %Y", tzberlin);
+		tmbrazil = mktimes("%d/%m/%y %A %H:%M", tzsaopaulo);
 		t0 = gettemperature("/sys/devices/virtual/hwmon/hwmon0", "temp1_input");
 		t1 = gettemperature("/sys/devices/virtual/hwmon/hwmon2", "temp1_input");
 		t2 = gettemperature("/sys/devices/virtual/hwmon/hwmon4", "temp1_input");
 
-		status = smprintf("T:%s|%s|%s L:%s B:%s|%s A:%s U:%s %s",
-				t0, t1, t2, avgs, bat, bat1, tmar, tmutc,
-				tmbln);
+		status = smprintf("T:%s|%s|%s L:%s B:%s|%s A:%s",
+				t0, t1, t2, avgs, bat, bat1, tmbrazil );
 		setstatus(status);
 
 		free(t0);
